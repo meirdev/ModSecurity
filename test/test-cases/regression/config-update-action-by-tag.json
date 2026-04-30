@@ -1,0 +1,49 @@
+[
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "SecRuleUpdateActionByTag (1/n)",
+    "client": {
+      "ip": "200.249.12.31",
+      "port": 123
+    },
+    "server": {
+      "ip": "200.249.12.31",
+      "port": 80
+    },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [
+        ""
+      ]
+    },
+    "response": {
+      "headers": {
+        "Content-Type": "text/html",
+        "Content-Length": "8"
+      },
+      "body": [
+        "no need."
+      ]
+    },
+    "expected": {
+      "http_code": 200,
+      "error_log": "cnt-is-1"
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRuleUpdateActionByTag \"my-tag\" \"setvar:tx.cnt=-1\"",
+      "SecRule ARGS \"@contains value1\" \"phase:1,id:200001,setvar:tx.cnt=+1,pass,tag:my-tag\"",
+      "SecRule ARGS \"@contains value1\" \"phase:1,id:200002,setvar:tx.cnt=+1,pass,tag:my-tag\"",
+      "SecRule ARGS \"@contains value1\" \"phase:1,id:200003,setvar:tx.cnt=+1,pass\"",
+      "SecRule TX:cnt \"@eq 1\" \"phase:1,id:200004,log,msg:'cnt-is-1',pass\""
+    ]
+  }
+]

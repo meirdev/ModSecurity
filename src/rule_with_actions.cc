@@ -225,6 +225,22 @@ void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *
         }
     }
 
+    for (auto &b :
+        trans->m_rules->m_exceptions.m_action_pre_update_target_by_tag) {
+        if (!containsTag(*b.first, trans)) {
+            continue;
+        }
+        actions::Action *a = b.second.get();
+        if (a->isDisruptive() == true && *a->m_name.get() == "block") {
+            ms_dbg_a(trans, 9, "Rule contains a `block' action");
+                *containsBlock = true;
+        } else if (*a->m_name.get() == "setvar") {
+            ms_dbg_a(trans, 4, "Running [independent] (non-disruptive) " \
+                "action: " + *a->m_name.get());
+            a->evaluate(this, trans, ruleMessage);
+        }
+    }
+
     if (m_containsMultiMatchAction && m_chainedRuleParent == nullptr) {
         if (m_severity) {
             m_severity->evaluate(this, trans, ruleMessage);
@@ -265,6 +281,15 @@ void RuleWithActions::executeActionsAfterFullMatch(Transaction *trans,
     for (auto &b :
         trans->m_rules->m_exceptions.m_action_pos_update_target_by_id) {
         if (m_ruleId != b.first) {
+            continue;
+        }
+        actions::Action *a = b.second.get();
+        executeAction(trans, containsBlock, ruleMessage, a, false);
+        disruptiveAlreadyExecuted = true;
+    }
+    for (auto &b :
+        trans->m_rules->m_exceptions.m_action_pos_update_target_by_tag) {
+        if (!containsTag(*b.first, trans)) {
             continue;
         }
         actions::Action *a = b.second.get();
@@ -351,7 +376,7 @@ inline void RuleWithActions::executeTransformation(
 }
 
 void RuleWithActions::executeTransformations(
-    const Transaction *trans, const std::string &in, TransformationResults &ret) {
+    Transaction *trans, const std::string &in, TransformationResults &ret) {
     int none = 0;
     int transformations = 0;
     std::string path;
@@ -411,10 +436,36 @@ void RuleWithActions::executeTransformations(
             none++;
         }
     }
+    for (auto &b :
+        trans->m_rules->m_exceptions.m_action_pre_update_target_by_tag) {
+        if (!containsTag(*b.first, trans)) {
+            continue;
+        }
+        auto a = dynamic_cast<const Transformation*>(b.second.get());
+        assert(a != nullptr);
+        if (a->m_isNone) {
+            none++;
+        }
+    }
 
     for (auto &b :
         trans->m_rules->m_exceptions.m_action_pre_update_target_by_id) {
         if (m_ruleId != b.first) {
+            continue;
+        }
+        auto a = dynamic_cast<const Transformation*>(b.second.get());
+        assert(a != nullptr);
+        if (none == 0) {
+            executeTransformation(*a, value, trans, ret, path,
+                transformations);
+        }
+        if (a->m_isNone) {
+            none--;
+        }
+    }
+    for (auto &b :
+        trans->m_rules->m_exceptions.m_action_pre_update_target_by_tag) {
+        if (!containsTag(*b.first, trans)) {
             continue;
         }
         auto a = dynamic_cast<const Transformation*>(b.second.get());
@@ -457,7 +508,7 @@ bool RuleWithActions::containsMsg(const std::string& name, Transaction *t) {
 
 
 std::vector<actions::Action *> RuleWithActions::getActionsByName(const std::string& name,
-    const Transaction *trans) {
+    Transaction *trans) {
     std::vector<actions::Action *> ret;
     for (auto &z : m_actionsRuntimePos) {
         if (*z->m_name.get() == name) {
@@ -482,6 +533,26 @@ std::vector<actions::Action *> RuleWithActions::getActionsByName(const std::stri
     for (auto &b :
         trans->m_rules->m_exceptions.m_action_pos_update_target_by_id) {
         if (m_ruleId != b.first) {
+            continue;
+        }
+        actions::Action *z = b.second.get();
+        if (*z->m_name.get() == name) {
+            ret.push_back(z);
+        }
+    }
+    for (auto &b :
+        trans->m_rules->m_exceptions.m_action_pre_update_target_by_tag) {
+        if (!containsTag(*b.first, trans)) {
+            continue;
+        }
+        actions::Action *z = b.second.get();
+        if (*z->m_name.get() == name) {
+            ret.push_back(z);
+        }
+    }
+    for (auto &b :
+        trans->m_rules->m_exceptions.m_action_pos_update_target_by_tag) {
+        if (!containsTag(*b.first, trans)) {
             continue;
         }
         actions::Action *z = b.second.get();

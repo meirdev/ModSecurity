@@ -71,7 +71,7 @@ class RuleWithActions : public Rule {
 
 
     void executeTransformations(
-        const Transaction *trasn, const std::string &value, TransformationResults &ret);
+        Transaction *trasn, const std::string &value, TransformationResults &ret);
 
     void performLogging(Transaction *trans,
         RuleMessage &ruleMessage,
@@ -79,7 +79,7 @@ class RuleWithActions : public Rule {
         bool chainedParentNull = false) const;
 
     std::vector<actions::Action *> getActionsByName(const std::string& name,
-        const Transaction *t);
+        Transaction *t);
     bool containsTag(const std::string& name, Transaction *t);
     bool containsMsg(const std::string& name, Transaction *t);
 

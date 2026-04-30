@@ -644,6 +644,7 @@ using namespace modsecurity::operators;
   CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG         "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
   CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID          "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
   CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID          "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+  CONFIG_SEC_RULE_UPDATE_ACTION_BY_TAG         "CONFIG_SEC_RULE_UPDATE_ACTION_BY_TAG"
   CONFIG_UPDLOAD_KEEP_FILES                    "CONFIG_UPDLOAD_KEEP_FILES"
   CONFIG_UPDLOAD_SAVE_TMP_FILES                "CONFIG_UPDLOAD_SAVE_TMP_FILES"
   CONFIG_UPLOAD_DIR                            "CONFIG_UPLOAD_DIR"
@@ -1552,6 +1553,19 @@ expression:
         if (driver.m_exceptions.loadUpdateActionById(ruleId, std::move($2), &error) == false) {
             std::stringstream ss;
             ss << "SecRuleUpdateActionById: failed to load:";
+            ss << $1;
+            ss << ". ";
+            ss << error;
+            driver.error(@0, ss.str());
+            YYERROR;
+        }
+      }
+    | CONFIG_SEC_RULE_UPDATE_ACTION_BY_TAG actions
+      {
+        std::string error;
+        if (driver.m_exceptions.loadUpdateActionByTag($1, std::move($2), &error) == false) {
+            std::stringstream ss;
+            ss << "SecRuleUpdateActionByTag: failed to load:";
             ss << $1;
             ss << ". ";
             ss << error;
