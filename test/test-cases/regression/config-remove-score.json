@@ -1,0 +1,99 @@
+[
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "SecRemoveScoreById skips score setvars of the targeted rule; non-score var survives",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200,
+      "error_log": "kept-marker"
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRemoveScoreById 920100",
+      "SecRule ARGS \"@contains value1\" \"id:920100,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5,setvar:tx.marker=1\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:920101,phase:1,deny,status:418,msg:'score-still-set'\"",
+      "SecRule TX:marker \"@streq 1\" \"id:920102,phase:1,log,msg:'kept-marker',pass\""
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "SecRemoveScoreByTag skips score setvars of every rule carrying the tag",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRemoveScoreByTag \"attack-xss\"",
+      "SecRule ARGS \"@contains value1\" \"id:920200,phase:1,pass,nolog,tag:attack-xss,setvar:tx.xss_score=+3\"",
+      "SecRule ARGS \"@contains value1\" \"id:920201,phase:1,pass,nolog,tag:attack-xss,setvar:tx.anomaly_score=+3\"",
+      "SecRule TX:xss_score \"@ge 1\" \"id:920202,phase:1,deny,status:418,msg:'xss-score-set'\"",
+      "SecRule TX:anomaly_score \"@ge 1\" \"id:920203,phase:1,deny,status:418,msg:'anomaly-score-set'\""
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "SecRemoveScoreById does not affect a rule that was not targeted",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 418
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRemoveScoreById 920300",
+      "SecRule ARGS \"@contains value1\" \"id:920301,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:920302,phase:1,deny,status:418,msg:'untargeted-score-set'\""
+    ]
+  }
+]

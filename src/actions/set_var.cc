@@ -35,16 +35,7 @@ namespace modsecurity {
 namespace actions {
 
 
-bool SetVar::evaluate(RuleWithActions *rule, Transaction *t) {
-    std::string targetValue;
-    std::string resolvedPre;
-
-    if (m_string) {
-        resolvedPre = m_string->evaluate(t, rule);
-    }
-
-    std::string m_variableNameExpanded;
-
+std::string SetVar::expandedName(Transaction *t, RuleWithActions *rule) const {
     auto *v = m_variable.get();
     auto tx = dynamic_cast<variables::Tx_DynamicElement *> (v);
     auto session = dynamic_cast<variables::Session_DynamicElement *> (v);
@@ -53,20 +44,39 @@ bool SetVar::evaluate(RuleWithActions *rule, Transaction *t) {
     auto global = dynamic_cast<variables::Global_DynamicElement *> (v);
     auto user = dynamic_cast<variables::User_DynamicElement *> (v);
     if (tx) {
-        m_variableNameExpanded = tx->m_string->evaluate(t, rule);
+        return tx->m_string->evaluate(t, rule);
     } else if (session) {
-        m_variableNameExpanded = session->m_string->evaluate(t, rule);
+        return session->m_string->evaluate(t, rule);
     } else if (ip) {
-        m_variableNameExpanded = ip->m_string->evaluate(t, rule);
+        return ip->m_string->evaluate(t, rule);
     } else if (resource) {
-        m_variableNameExpanded = resource->m_string->evaluate(t, rule);
+        return resource->m_string->evaluate(t, rule);
     } else if (global) {
-        m_variableNameExpanded = global->m_string->evaluate(t, rule);
+        return global->m_string->evaluate(t, rule);
     } else if (user) {
-        m_variableNameExpanded = user->m_string->evaluate(t, rule);
-    } else {
-        m_variableNameExpanded = m_variable->m_name;
+        return user->m_string->evaluate(t, rule);
     }
+    return m_variable->m_name;
+}
+
+
+bool SetVar::evaluate(RuleWithActions *rule, Transaction *t) {
+    std::string targetValue;
+    std::string resolvedPre;
+
+    if (m_string) {
+        resolvedPre = m_string->evaluate(t, rule);
+    }
+
+    std::string m_variableNameExpanded = expandedName(t, rule);
+
+    auto *v = m_variable.get();
+    auto tx = dynamic_cast<variables::Tx_DynamicElement *> (v);
+    auto session = dynamic_cast<variables::Session_DynamicElement *> (v);
+    auto ip = dynamic_cast<variables::Ip_DynamicElement *> (v);
+    auto resource = dynamic_cast<variables::Resource_DynamicElement *> (v);
+    auto global = dynamic_cast<variables::Global_DynamicElement *> (v);
+    auto user = dynamic_cast<variables::User_DynamicElement *> (v);
 
     if (m_operation == setOperation) {
         targetValue = resolvedPre;

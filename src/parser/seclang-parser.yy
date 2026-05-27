@@ -644,6 +644,8 @@ using namespace modsecurity::operators;
   CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG         "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
   CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID          "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
   CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID          "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+  CONFIG_SEC_REMOVE_SCORE_BY_ID                "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+  CONFIG_SEC_REMOVE_SCORE_BY_TAG               "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
   CONFIG_UPDLOAD_KEEP_FILES                    "CONFIG_UPDLOAD_KEEP_FILES"
   CONFIG_UPDLOAD_SAVE_TMP_FILES                "CONFIG_UPDLOAD_SAVE_TMP_FILES"
   CONFIG_UPLOAD_DIR                            "CONFIG_UPLOAD_DIR"
@@ -1558,6 +1560,21 @@ expression:
             driver.error(@0, ss.str());
             YYERROR;
         }
+      }
+    | CONFIG_SEC_REMOVE_SCORE_BY_ID
+      {
+        double ruleId;
+        try {
+            ruleId = std::stod($1);
+        } catch (...) {
+            driver.error(@0, "SecRemoveScoreById: \"" + $1 + "\" is not a valid rule id.");
+            YYERROR;
+        }
+        driver.m_exceptions.loadRemoveScoreById(ruleId);
+      }
+    | CONFIG_SEC_REMOVE_SCORE_BY_TAG
+      {
+        driver.m_exceptions.loadRemoveScoreByTag($1);
       }
     /* Debug log: start */
     | CONFIG_DIR_DEBUG_LVL

@@ -869,6 +869,8 @@ namespace yy {
       // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
       // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
       // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+      // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+      // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
       // "CONFIG_UPDLOAD_KEEP_FILES"
       // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
       // "CONFIG_UPLOAD_DIR"
@@ -1294,55 +1296,57 @@ namespace yy {
     TOK_CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG = 555, // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
     TOK_CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID = 556, // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
     TOK_CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID = 557, // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
-    TOK_CONFIG_UPDLOAD_KEEP_FILES = 558, // "CONFIG_UPDLOAD_KEEP_FILES"
-    TOK_CONFIG_UPDLOAD_SAVE_TMP_FILES = 559, // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
-    TOK_CONFIG_UPLOAD_DIR = 560,   // "CONFIG_UPLOAD_DIR"
-    TOK_CONFIG_UPLOAD_FILE_LIMIT = 561, // "CONFIG_UPLOAD_FILE_LIMIT"
-    TOK_CONFIG_UPLOAD_FILE_MODE = 562, // "CONFIG_UPLOAD_FILE_MODE"
-    TOK_CONFIG_VALUE_ABORT = 563,  // "CONFIG_VALUE_ABORT"
-    TOK_CONFIG_VALUE_DETC = 564,   // "CONFIG_VALUE_DETC"
-    TOK_CONFIG_VALUE_HTTPS = 565,  // "CONFIG_VALUE_HTTPS"
-    TOK_CONFIG_VALUE_ONLYARGS = 566, // "CONFIG_VALUE_ONLYARGS"
-    TOK_CONFIG_VALUE_OFF = 567,    // "CONFIG_VALUE_OFF"
-    TOK_CONFIG_VALUE_ON = 568,     // "CONFIG_VALUE_ON"
-    TOK_CONFIG_VALUE_PARALLEL = 569, // "CONFIG_VALUE_PARALLEL"
-    TOK_CONFIG_VALUE_PROCESS_PARTIAL = 570, // "CONFIG_VALUE_PROCESS_PARTIAL"
-    TOK_CONFIG_VALUE_REJECT = 571, // "CONFIG_VALUE_REJECT"
-    TOK_CONFIG_VALUE_RELEVANT_ONLY = 572, // "CONFIG_VALUE_RELEVANT_ONLY"
-    TOK_CONFIG_VALUE_SERIAL = 573, // "CONFIG_VALUE_SERIAL"
-    TOK_CONFIG_VALUE_WARN = 574,   // "CONFIG_VALUE_WARN"
-    TOK_CONFIG_XML_EXTERNAL_ENTITY = 575, // "CONFIG_XML_EXTERNAL_ENTITY"
-    TOK_CONFIG_XML_PARSE_XML_INTO_ARGS = 576, // "CONFIG_XML_PARSE_XML_INTO_ARGS"
-    TOK_CONGIG_DIR_RESPONSE_BODY_MP = 577, // "CONGIG_DIR_RESPONSE_BODY_MP"
-    TOK_CONGIG_DIR_SEC_ARG_SEP = 578, // "CONGIG_DIR_SEC_ARG_SEP"
-    TOK_CONGIG_DIR_SEC_COOKIE_FORMAT = 579, // "CONGIG_DIR_SEC_COOKIE_FORMAT"
-    TOK_CONFIG_SEC_COOKIEV0_SEPARATOR = 580, // "CONFIG_SEC_COOKIEV0_SEPARATOR"
-    TOK_CONGIG_DIR_SEC_DATA_DIR = 581, // "CONGIG_DIR_SEC_DATA_DIR"
-    TOK_CONGIG_DIR_SEC_STATUS_ENGINE = 582, // "CONGIG_DIR_SEC_STATUS_ENGINE"
-    TOK_CONFIG_SEC_STREAM_IN_BODY_INSPECTION = 583, // "CONFIG_SEC_STREAM_IN_BODY_INSPECTION"
-    TOK_CONFIG_SEC_STREAM_OUT_BODY_INSPECTION = 584, // "CONFIG_SEC_STREAM_OUT_BODY_INSPECTION"
-    TOK_CONGIG_DIR_SEC_TMP_DIR = 585, // "CONGIG_DIR_SEC_TMP_DIR"
-    TOK_DIRECTIVE = 586,           // "DIRECTIVE"
-    TOK_DIRECTIVE_SECRULESCRIPT = 587, // "DIRECTIVE_SECRULESCRIPT"
-    TOK_FREE_TEXT_QUOTE_MACRO_EXPANSION = 588, // "FREE_TEXT_QUOTE_MACRO_EXPANSION"
-    TOK_QUOTATION_MARK = 589,      // "QUOTATION_MARK"
-    TOK_RUN_TIME_VAR_BLD = 590,    // "RUN_TIME_VAR_BLD"
-    TOK_RUN_TIME_VAR_DUR = 591,    // "RUN_TIME_VAR_DUR"
-    TOK_RUN_TIME_VAR_HSV = 592,    // "RUN_TIME_VAR_HSV"
-    TOK_RUN_TIME_VAR_REMOTE_USER = 593, // "RUN_TIME_VAR_REMOTE_USER"
-    TOK_RUN_TIME_VAR_TIME = 594,   // "RUN_TIME_VAR_TIME"
-    TOK_RUN_TIME_VAR_TIME_DAY = 595, // "RUN_TIME_VAR_TIME_DAY"
-    TOK_RUN_TIME_VAR_TIME_EPOCH = 596, // "RUN_TIME_VAR_TIME_EPOCH"
-    TOK_RUN_TIME_VAR_TIME_HOUR = 597, // "RUN_TIME_VAR_TIME_HOUR"
-    TOK_RUN_TIME_VAR_TIME_MIN = 598, // "RUN_TIME_VAR_TIME_MIN"
-    TOK_RUN_TIME_VAR_TIME_MON = 599, // "RUN_TIME_VAR_TIME_MON"
-    TOK_RUN_TIME_VAR_TIME_SEC = 600, // "RUN_TIME_VAR_TIME_SEC"
-    TOK_RUN_TIME_VAR_TIME_WDAY = 601, // "RUN_TIME_VAR_TIME_WDAY"
-    TOK_RUN_TIME_VAR_TIME_YEAR = 602, // "RUN_TIME_VAR_TIME_YEAR"
-    TOK_VARIABLE = 603,            // "VARIABLE"
-    TOK_DICT_ELEMENT = 604,        // "Dictionary element"
-    TOK_DICT_ELEMENT_WITH_EQUALS = 605, // "Dictionary element, with equals"
-    TOK_DICT_ELEMENT_REGEXP = 606  // "Dictionary element, selected by regexp"
+    TOK_CONFIG_SEC_REMOVE_SCORE_BY_ID = 558, // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+    TOK_CONFIG_SEC_REMOVE_SCORE_BY_TAG = 559, // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
+    TOK_CONFIG_UPDLOAD_KEEP_FILES = 560, // "CONFIG_UPDLOAD_KEEP_FILES"
+    TOK_CONFIG_UPDLOAD_SAVE_TMP_FILES = 561, // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
+    TOK_CONFIG_UPLOAD_DIR = 562,   // "CONFIG_UPLOAD_DIR"
+    TOK_CONFIG_UPLOAD_FILE_LIMIT = 563, // "CONFIG_UPLOAD_FILE_LIMIT"
+    TOK_CONFIG_UPLOAD_FILE_MODE = 564, // "CONFIG_UPLOAD_FILE_MODE"
+    TOK_CONFIG_VALUE_ABORT = 565,  // "CONFIG_VALUE_ABORT"
+    TOK_CONFIG_VALUE_DETC = 566,   // "CONFIG_VALUE_DETC"
+    TOK_CONFIG_VALUE_HTTPS = 567,  // "CONFIG_VALUE_HTTPS"
+    TOK_CONFIG_VALUE_ONLYARGS = 568, // "CONFIG_VALUE_ONLYARGS"
+    TOK_CONFIG_VALUE_OFF = 569,    // "CONFIG_VALUE_OFF"
+    TOK_CONFIG_VALUE_ON = 570,     // "CONFIG_VALUE_ON"
+    TOK_CONFIG_VALUE_PARALLEL = 571, // "CONFIG_VALUE_PARALLEL"
+    TOK_CONFIG_VALUE_PROCESS_PARTIAL = 572, // "CONFIG_VALUE_PROCESS_PARTIAL"
+    TOK_CONFIG_VALUE_REJECT = 573, // "CONFIG_VALUE_REJECT"
+    TOK_CONFIG_VALUE_RELEVANT_ONLY = 574, // "CONFIG_VALUE_RELEVANT_ONLY"
+    TOK_CONFIG_VALUE_SERIAL = 575, // "CONFIG_VALUE_SERIAL"
+    TOK_CONFIG_VALUE_WARN = 576,   // "CONFIG_VALUE_WARN"
+    TOK_CONFIG_XML_EXTERNAL_ENTITY = 577, // "CONFIG_XML_EXTERNAL_ENTITY"
+    TOK_CONFIG_XML_PARSE_XML_INTO_ARGS = 578, // "CONFIG_XML_PARSE_XML_INTO_ARGS"
+    TOK_CONGIG_DIR_RESPONSE_BODY_MP = 579, // "CONGIG_DIR_RESPONSE_BODY_MP"
+    TOK_CONGIG_DIR_SEC_ARG_SEP = 580, // "CONGIG_DIR_SEC_ARG_SEP"
+    TOK_CONGIG_DIR_SEC_COOKIE_FORMAT = 581, // "CONGIG_DIR_SEC_COOKIE_FORMAT"
+    TOK_CONFIG_SEC_COOKIEV0_SEPARATOR = 582, // "CONFIG_SEC_COOKIEV0_SEPARATOR"
+    TOK_CONGIG_DIR_SEC_DATA_DIR = 583, // "CONGIG_DIR_SEC_DATA_DIR"
+    TOK_CONGIG_DIR_SEC_STATUS_ENGINE = 584, // "CONGIG_DIR_SEC_STATUS_ENGINE"
+    TOK_CONFIG_SEC_STREAM_IN_BODY_INSPECTION = 585, // "CONFIG_SEC_STREAM_IN_BODY_INSPECTION"
+    TOK_CONFIG_SEC_STREAM_OUT_BODY_INSPECTION = 586, // "CONFIG_SEC_STREAM_OUT_BODY_INSPECTION"
+    TOK_CONGIG_DIR_SEC_TMP_DIR = 587, // "CONGIG_DIR_SEC_TMP_DIR"
+    TOK_DIRECTIVE = 588,           // "DIRECTIVE"
+    TOK_DIRECTIVE_SECRULESCRIPT = 589, // "DIRECTIVE_SECRULESCRIPT"
+    TOK_FREE_TEXT_QUOTE_MACRO_EXPANSION = 590, // "FREE_TEXT_QUOTE_MACRO_EXPANSION"
+    TOK_QUOTATION_MARK = 591,      // "QUOTATION_MARK"
+    TOK_RUN_TIME_VAR_BLD = 592,    // "RUN_TIME_VAR_BLD"
+    TOK_RUN_TIME_VAR_DUR = 593,    // "RUN_TIME_VAR_DUR"
+    TOK_RUN_TIME_VAR_HSV = 594,    // "RUN_TIME_VAR_HSV"
+    TOK_RUN_TIME_VAR_REMOTE_USER = 595, // "RUN_TIME_VAR_REMOTE_USER"
+    TOK_RUN_TIME_VAR_TIME = 596,   // "RUN_TIME_VAR_TIME"
+    TOK_RUN_TIME_VAR_TIME_DAY = 597, // "RUN_TIME_VAR_TIME_DAY"
+    TOK_RUN_TIME_VAR_TIME_EPOCH = 598, // "RUN_TIME_VAR_TIME_EPOCH"
+    TOK_RUN_TIME_VAR_TIME_HOUR = 599, // "RUN_TIME_VAR_TIME_HOUR"
+    TOK_RUN_TIME_VAR_TIME_MIN = 600, // "RUN_TIME_VAR_TIME_MIN"
+    TOK_RUN_TIME_VAR_TIME_MON = 601, // "RUN_TIME_VAR_TIME_MON"
+    TOK_RUN_TIME_VAR_TIME_SEC = 602, // "RUN_TIME_VAR_TIME_SEC"
+    TOK_RUN_TIME_VAR_TIME_WDAY = 603, // "RUN_TIME_VAR_TIME_WDAY"
+    TOK_RUN_TIME_VAR_TIME_YEAR = 604, // "RUN_TIME_VAR_TIME_YEAR"
+    TOK_VARIABLE = 605,            // "VARIABLE"
+    TOK_DICT_ELEMENT = 606,        // "Dictionary element"
+    TOK_DICT_ELEMENT_WITH_EQUALS = 607, // "Dictionary element, with equals"
+    TOK_DICT_ELEMENT_REGEXP = 608  // "Dictionary element, selected by regexp"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -1359,7 +1363,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 352, ///< Number of tokens.
+        YYNTOKENS = 354, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -1664,71 +1668,73 @@ namespace yy {
         S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG = 300, // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
         S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID = 301, // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
         S_CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID = 302, // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
-        S_CONFIG_UPDLOAD_KEEP_FILES = 303,       // "CONFIG_UPDLOAD_KEEP_FILES"
-        S_CONFIG_UPDLOAD_SAVE_TMP_FILES = 304,   // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
-        S_CONFIG_UPLOAD_DIR = 305,               // "CONFIG_UPLOAD_DIR"
-        S_CONFIG_UPLOAD_FILE_LIMIT = 306,        // "CONFIG_UPLOAD_FILE_LIMIT"
-        S_CONFIG_UPLOAD_FILE_MODE = 307,         // "CONFIG_UPLOAD_FILE_MODE"
-        S_CONFIG_VALUE_ABORT = 308,              // "CONFIG_VALUE_ABORT"
-        S_CONFIG_VALUE_DETC = 309,               // "CONFIG_VALUE_DETC"
-        S_CONFIG_VALUE_HTTPS = 310,              // "CONFIG_VALUE_HTTPS"
-        S_CONFIG_VALUE_ONLYARGS = 311,           // "CONFIG_VALUE_ONLYARGS"
-        S_CONFIG_VALUE_OFF = 312,                // "CONFIG_VALUE_OFF"
-        S_CONFIG_VALUE_ON = 313,                 // "CONFIG_VALUE_ON"
-        S_CONFIG_VALUE_PARALLEL = 314,           // "CONFIG_VALUE_PARALLEL"
-        S_CONFIG_VALUE_PROCESS_PARTIAL = 315,    // "CONFIG_VALUE_PROCESS_PARTIAL"
-        S_CONFIG_VALUE_REJECT = 316,             // "CONFIG_VALUE_REJECT"
-        S_CONFIG_VALUE_RELEVANT_ONLY = 317,      // "CONFIG_VALUE_RELEVANT_ONLY"
-        S_CONFIG_VALUE_SERIAL = 318,             // "CONFIG_VALUE_SERIAL"
-        S_CONFIG_VALUE_WARN = 319,               // "CONFIG_VALUE_WARN"
-        S_CONFIG_XML_EXTERNAL_ENTITY = 320,      // "CONFIG_XML_EXTERNAL_ENTITY"
-        S_CONFIG_XML_PARSE_XML_INTO_ARGS = 321,  // "CONFIG_XML_PARSE_XML_INTO_ARGS"
-        S_CONGIG_DIR_RESPONSE_BODY_MP = 322,     // "CONGIG_DIR_RESPONSE_BODY_MP"
-        S_CONGIG_DIR_SEC_ARG_SEP = 323,          // "CONGIG_DIR_SEC_ARG_SEP"
-        S_CONGIG_DIR_SEC_COOKIE_FORMAT = 324,    // "CONGIG_DIR_SEC_COOKIE_FORMAT"
-        S_CONFIG_SEC_COOKIEV0_SEPARATOR = 325,   // "CONFIG_SEC_COOKIEV0_SEPARATOR"
-        S_CONGIG_DIR_SEC_DATA_DIR = 326,         // "CONGIG_DIR_SEC_DATA_DIR"
-        S_CONGIG_DIR_SEC_STATUS_ENGINE = 327,    // "CONGIG_DIR_SEC_STATUS_ENGINE"
-        S_CONFIG_SEC_STREAM_IN_BODY_INSPECTION = 328, // "CONFIG_SEC_STREAM_IN_BODY_INSPECTION"
-        S_CONFIG_SEC_STREAM_OUT_BODY_INSPECTION = 329, // "CONFIG_SEC_STREAM_OUT_BODY_INSPECTION"
-        S_CONGIG_DIR_SEC_TMP_DIR = 330,          // "CONGIG_DIR_SEC_TMP_DIR"
-        S_DIRECTIVE = 331,                       // "DIRECTIVE"
-        S_DIRECTIVE_SECRULESCRIPT = 332,         // "DIRECTIVE_SECRULESCRIPT"
-        S_FREE_TEXT_QUOTE_MACRO_EXPANSION = 333, // "FREE_TEXT_QUOTE_MACRO_EXPANSION"
-        S_QUOTATION_MARK = 334,                  // "QUOTATION_MARK"
-        S_RUN_TIME_VAR_BLD = 335,                // "RUN_TIME_VAR_BLD"
-        S_RUN_TIME_VAR_DUR = 336,                // "RUN_TIME_VAR_DUR"
-        S_RUN_TIME_VAR_HSV = 337,                // "RUN_TIME_VAR_HSV"
-        S_RUN_TIME_VAR_REMOTE_USER = 338,        // "RUN_TIME_VAR_REMOTE_USER"
-        S_RUN_TIME_VAR_TIME = 339,               // "RUN_TIME_VAR_TIME"
-        S_RUN_TIME_VAR_TIME_DAY = 340,           // "RUN_TIME_VAR_TIME_DAY"
-        S_RUN_TIME_VAR_TIME_EPOCH = 341,         // "RUN_TIME_VAR_TIME_EPOCH"
-        S_RUN_TIME_VAR_TIME_HOUR = 342,          // "RUN_TIME_VAR_TIME_HOUR"
-        S_RUN_TIME_VAR_TIME_MIN = 343,           // "RUN_TIME_VAR_TIME_MIN"
-        S_RUN_TIME_VAR_TIME_MON = 344,           // "RUN_TIME_VAR_TIME_MON"
-        S_RUN_TIME_VAR_TIME_SEC = 345,           // "RUN_TIME_VAR_TIME_SEC"
-        S_RUN_TIME_VAR_TIME_WDAY = 346,          // "RUN_TIME_VAR_TIME_WDAY"
-        S_RUN_TIME_VAR_TIME_YEAR = 347,          // "RUN_TIME_VAR_TIME_YEAR"
-        S_VARIABLE = 348,                        // "VARIABLE"
-        S_DICT_ELEMENT = 349,                    // "Dictionary element"
-        S_DICT_ELEMENT_WITH_EQUALS = 350,        // "Dictionary element, with equals"
-        S_DICT_ELEMENT_REGEXP = 351,             // "Dictionary element, selected by regexp"
-        S_YYACCEPT = 352,                        // $accept
-        S_input = 353,                           // input
-        S_line = 354,                            // line
-        S_audit_log = 355,                       // audit_log
-        S_actions = 356,                         // actions
-        S_actions_may_quoted = 357,              // actions_may_quoted
-        S_op = 358,                              // op
-        S_op_before_init = 359,                  // op_before_init
-        S_expression = 360,                      // expression
-        S_variables = 361,                       // variables
-        S_variables_pre_process = 362,           // variables_pre_process
-        S_variables_may_be_quoted = 363,         // variables_may_be_quoted
-        S_var = 364,                             // var
-        S_act = 365,                             // act
-        S_setvar_action = 366,                   // setvar_action
-        S_run_time_string = 367                  // run_time_string
+        S_CONFIG_SEC_REMOVE_SCORE_BY_ID = 303,   // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+        S_CONFIG_SEC_REMOVE_SCORE_BY_TAG = 304,  // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
+        S_CONFIG_UPDLOAD_KEEP_FILES = 305,       // "CONFIG_UPDLOAD_KEEP_FILES"
+        S_CONFIG_UPDLOAD_SAVE_TMP_FILES = 306,   // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
+        S_CONFIG_UPLOAD_DIR = 307,               // "CONFIG_UPLOAD_DIR"
+        S_CONFIG_UPLOAD_FILE_LIMIT = 308,        // "CONFIG_UPLOAD_FILE_LIMIT"
+        S_CONFIG_UPLOAD_FILE_MODE = 309,         // "CONFIG_UPLOAD_FILE_MODE"
+        S_CONFIG_VALUE_ABORT = 310,              // "CONFIG_VALUE_ABORT"
+        S_CONFIG_VALUE_DETC = 311,               // "CONFIG_VALUE_DETC"
+        S_CONFIG_VALUE_HTTPS = 312,              // "CONFIG_VALUE_HTTPS"
+        S_CONFIG_VALUE_ONLYARGS = 313,           // "CONFIG_VALUE_ONLYARGS"
+        S_CONFIG_VALUE_OFF = 314,                // "CONFIG_VALUE_OFF"
+        S_CONFIG_VALUE_ON = 315,                 // "CONFIG_VALUE_ON"
+        S_CONFIG_VALUE_PARALLEL = 316,           // "CONFIG_VALUE_PARALLEL"
+        S_CONFIG_VALUE_PROCESS_PARTIAL = 317,    // "CONFIG_VALUE_PROCESS_PARTIAL"
+        S_CONFIG_VALUE_REJECT = 318,             // "CONFIG_VALUE_REJECT"
+        S_CONFIG_VALUE_RELEVANT_ONLY = 319,      // "CONFIG_VALUE_RELEVANT_ONLY"
+        S_CONFIG_VALUE_SERIAL = 320,             // "CONFIG_VALUE_SERIAL"
+        S_CONFIG_VALUE_WARN = 321,               // "CONFIG_VALUE_WARN"
+        S_CONFIG_XML_EXTERNAL_ENTITY = 322,      // "CONFIG_XML_EXTERNAL_ENTITY"
+        S_CONFIG_XML_PARSE_XML_INTO_ARGS = 323,  // "CONFIG_XML_PARSE_XML_INTO_ARGS"
+        S_CONGIG_DIR_RESPONSE_BODY_MP = 324,     // "CONGIG_DIR_RESPONSE_BODY_MP"
+        S_CONGIG_DIR_SEC_ARG_SEP = 325,          // "CONGIG_DIR_SEC_ARG_SEP"
+        S_CONGIG_DIR_SEC_COOKIE_FORMAT = 326,    // "CONGIG_DIR_SEC_COOKIE_FORMAT"
+        S_CONFIG_SEC_COOKIEV0_SEPARATOR = 327,   // "CONFIG_SEC_COOKIEV0_SEPARATOR"
+        S_CONGIG_DIR_SEC_DATA_DIR = 328,         // "CONGIG_DIR_SEC_DATA_DIR"
+        S_CONGIG_DIR_SEC_STATUS_ENGINE = 329,    // "CONGIG_DIR_SEC_STATUS_ENGINE"
+        S_CONFIG_SEC_STREAM_IN_BODY_INSPECTION = 330, // "CONFIG_SEC_STREAM_IN_BODY_INSPECTION"
+        S_CONFIG_SEC_STREAM_OUT_BODY_INSPECTION = 331, // "CONFIG_SEC_STREAM_OUT_BODY_INSPECTION"
+        S_CONGIG_DIR_SEC_TMP_DIR = 332,          // "CONGIG_DIR_SEC_TMP_DIR"
+        S_DIRECTIVE = 333,                       // "DIRECTIVE"
+        S_DIRECTIVE_SECRULESCRIPT = 334,         // "DIRECTIVE_SECRULESCRIPT"
+        S_FREE_TEXT_QUOTE_MACRO_EXPANSION = 335, // "FREE_TEXT_QUOTE_MACRO_EXPANSION"
+        S_QUOTATION_MARK = 336,                  // "QUOTATION_MARK"
+        S_RUN_TIME_VAR_BLD = 337,                // "RUN_TIME_VAR_BLD"
+        S_RUN_TIME_VAR_DUR = 338,                // "RUN_TIME_VAR_DUR"
+        S_RUN_TIME_VAR_HSV = 339,                // "RUN_TIME_VAR_HSV"
+        S_RUN_TIME_VAR_REMOTE_USER = 340,        // "RUN_TIME_VAR_REMOTE_USER"
+        S_RUN_TIME_VAR_TIME = 341,               // "RUN_TIME_VAR_TIME"
+        S_RUN_TIME_VAR_TIME_DAY = 342,           // "RUN_TIME_VAR_TIME_DAY"
+        S_RUN_TIME_VAR_TIME_EPOCH = 343,         // "RUN_TIME_VAR_TIME_EPOCH"
+        S_RUN_TIME_VAR_TIME_HOUR = 344,          // "RUN_TIME_VAR_TIME_HOUR"
+        S_RUN_TIME_VAR_TIME_MIN = 345,           // "RUN_TIME_VAR_TIME_MIN"
+        S_RUN_TIME_VAR_TIME_MON = 346,           // "RUN_TIME_VAR_TIME_MON"
+        S_RUN_TIME_VAR_TIME_SEC = 347,           // "RUN_TIME_VAR_TIME_SEC"
+        S_RUN_TIME_VAR_TIME_WDAY = 348,          // "RUN_TIME_VAR_TIME_WDAY"
+        S_RUN_TIME_VAR_TIME_YEAR = 349,          // "RUN_TIME_VAR_TIME_YEAR"
+        S_VARIABLE = 350,                        // "VARIABLE"
+        S_DICT_ELEMENT = 351,                    // "Dictionary element"
+        S_DICT_ELEMENT_WITH_EQUALS = 352,        // "Dictionary element, with equals"
+        S_DICT_ELEMENT_REGEXP = 353,             // "Dictionary element, selected by regexp"
+        S_YYACCEPT = 354,                        // $accept
+        S_input = 355,                           // input
+        S_line = 356,                            // line
+        S_audit_log = 357,                       // audit_log
+        S_actions = 358,                         // actions
+        S_actions_may_quoted = 359,              // actions_may_quoted
+        S_op = 360,                              // op
+        S_op_before_init = 361,                  // op_before_init
+        S_expression = 362,                      // expression
+        S_variables = 363,                       // variables
+        S_variables_pre_process = 364,           // variables_pre_process
+        S_variables_may_be_quoted = 365,         // variables_may_be_quoted
+        S_var = 366,                             // var
+        S_act = 367,                             // act
+        S_setvar_action = 368,                   // setvar_action
+        S_run_time_string = 369                  // run_time_string
       };
     };
 
@@ -1919,6 +1925,8 @@ namespace yy {
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID: // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_ID: // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_TAG: // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
       case symbol_kind::S_CONFIG_UPDLOAD_KEEP_FILES: // "CONFIG_UPDLOAD_KEEP_FILES"
       case symbol_kind::S_CONFIG_UPDLOAD_SAVE_TMP_FILES: // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
       case symbol_kind::S_CONFIG_UPLOAD_DIR: // "CONFIG_UPLOAD_DIR"
@@ -2139,69 +2147,69 @@ namespace yy {
         switch (yykind)
         {
       case symbol_kind::S_actions: // actions
-#line 724 "seclang-parser.yy"
+#line 726 "seclang-parser.yy"
                     { }
-#line 2145 "seclang-parser.hh"
+#line 2153 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_actions_may_quoted: // actions_may_quoted
-#line 724 "seclang-parser.yy"
+#line 726 "seclang-parser.yy"
                     { }
-#line 2151 "seclang-parser.hh"
+#line 2159 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_op: // op
-#line 725 "seclang-parser.yy"
+#line 727 "seclang-parser.yy"
                     { }
-#line 2157 "seclang-parser.hh"
+#line 2165 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_op_before_init: // op_before_init
-#line 725 "seclang-parser.yy"
+#line 727 "seclang-parser.yy"
                     { }
-#line 2163 "seclang-parser.hh"
+#line 2171 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_variables: // variables
-#line 727 "seclang-parser.yy"
+#line 729 "seclang-parser.yy"
                     { }
-#line 2169 "seclang-parser.hh"
+#line 2177 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_variables_pre_process: // variables_pre_process
-#line 727 "seclang-parser.yy"
+#line 729 "seclang-parser.yy"
                     { }
-#line 2175 "seclang-parser.hh"
+#line 2183 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_variables_may_be_quoted: // variables_may_be_quoted
-#line 727 "seclang-parser.yy"
+#line 729 "seclang-parser.yy"
                     { }
-#line 2181 "seclang-parser.hh"
+#line 2189 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_var: // var
-#line 726 "seclang-parser.yy"
+#line 728 "seclang-parser.yy"
                     { }
-#line 2187 "seclang-parser.hh"
+#line 2195 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_act: // act
-#line 722 "seclang-parser.yy"
+#line 724 "seclang-parser.yy"
                     { }
-#line 2193 "seclang-parser.hh"
+#line 2201 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_setvar_action: // setvar_action
-#line 722 "seclang-parser.yy"
+#line 724 "seclang-parser.yy"
                     { }
-#line 2199 "seclang-parser.hh"
+#line 2207 "seclang-parser.hh"
         break;
 
       case symbol_kind::S_run_time_string: // run_time_string
-#line 723 "seclang-parser.yy"
+#line 725 "seclang-parser.yy"
                     { }
-#line 2205 "seclang-parser.hh"
+#line 2213 "seclang-parser.hh"
         break;
 
        default:
@@ -2365,6 +2373,8 @@ switch (yykind)
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID: // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_ID: // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_TAG: // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
       case symbol_kind::S_CONFIG_UPDLOAD_KEEP_FILES: // "CONFIG_UPDLOAD_KEEP_FILES"
       case symbol_kind::S_CONFIG_UPDLOAD_SAVE_TMP_FILES: // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
       case symbol_kind::S_CONFIG_UPLOAD_DIR: // "CONFIG_UPLOAD_DIR"
@@ -7155,6 +7165,36 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_CONFIG_SEC_REMOVE_SCORE_BY_ID (std::string v, location_type l)
+      {
+        return symbol_type (token::TOK_CONFIG_SEC_REMOVE_SCORE_BY_ID, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_CONFIG_SEC_REMOVE_SCORE_BY_ID (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::TOK_CONFIG_SEC_REMOVE_SCORE_BY_ID, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_CONFIG_SEC_REMOVE_SCORE_BY_TAG (std::string v, location_type l)
+      {
+        return symbol_type (token::TOK_CONFIG_SEC_REMOVE_SCORE_BY_TAG, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_CONFIG_SEC_REMOVE_SCORE_BY_TAG (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::TOK_CONFIG_SEC_REMOVE_SCORE_BY_TAG, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_CONFIG_UPDLOAD_KEEP_FILES (std::string v, location_type l)
       {
         return symbol_type (token::TOK_CONFIG_UPDLOAD_KEEP_FILES, std::move (v), std::move (l));
@@ -8217,9 +8257,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 3409,     ///< Last index in yytable_.
+      yylast_ = 3423,     ///< Last index in yytable_.
       yynnts_ = 16,  ///< Number of nonterminal symbols.
-      yyfinal_ = 347 ///< Termination state number.
+      yyfinal_ = 349 ///< Termination state number.
     };
 
 
@@ -8298,10 +8338,10 @@ switch (yykind)
      315,   316,   317,   318,   319,   320,   321,   322,   323,   324,
      325,   326,   327,   328,   329,   330,   331,   332,   333,   334,
      335,   336,   337,   338,   339,   340,   341,   342,   343,   344,
-     345,   346,   347,   348,   349,   350,   351
+     345,   346,   347,   348,   349,   350,   351,   352,   353
     };
     // Last valid token kind.
-    const int code_max = 606;
+    const int code_max = 608;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -8474,6 +8514,8 @@ switch (yykind)
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID: // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_ID: // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_TAG: // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
       case symbol_kind::S_CONFIG_UPDLOAD_KEEP_FILES: // "CONFIG_UPDLOAD_KEEP_FILES"
       case symbol_kind::S_CONFIG_UPDLOAD_SAVE_TMP_FILES: // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
       case symbol_kind::S_CONFIG_UPLOAD_DIR: // "CONFIG_UPLOAD_DIR"
@@ -8740,6 +8782,8 @@ switch (yykind)
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_MSG"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID: // "CONFIG_SEC_RULE_UPDATE_TARGET_BY_ID"
       case symbol_kind::S_CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID: // "CONFIG_SEC_RULE_UPDATE_ACTION_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_ID: // "CONFIG_SEC_REMOVE_SCORE_BY_ID"
+      case symbol_kind::S_CONFIG_SEC_REMOVE_SCORE_BY_TAG: // "CONFIG_SEC_REMOVE_SCORE_BY_TAG"
       case symbol_kind::S_CONFIG_UPDLOAD_KEEP_FILES: // "CONFIG_UPDLOAD_KEEP_FILES"
       case symbol_kind::S_CONFIG_UPDLOAD_SAVE_TMP_FILES: // "CONFIG_UPDLOAD_SAVE_TMP_FILES"
       case symbol_kind::S_CONFIG_UPLOAD_DIR: // "CONFIG_UPLOAD_DIR"
@@ -8887,7 +8931,7 @@ switch (yykind)
 
 
 } // yy
-#line 8891 "seclang-parser.hh"
+#line 8935 "seclang-parser.hh"
 
 
 

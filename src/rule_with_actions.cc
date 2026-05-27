@@ -55,6 +55,36 @@ using actions::transformations::None;
 using actions::transformations::Transformation;
 
 
+namespace {
+
+/* Case-insensitive substring search for "score" in a variable name such as
+ * "TX:inbound_anomaly_score_pl1". */
+bool nameContainsScore(const std::string &name) {
+    return utils::string::tolower(name).find("score") != std::string::npos;
+}
+
+}  // namespace
+
+
+bool RuleWithActions::scoreRemovalApplies(Transaction *trans) {
+    const auto &ex = trans->m_rules->m_exceptions;
+    if (ex.m_remove_score_by_id.empty() && ex.m_remove_score_by_tag.empty()) {
+        return false;
+    }
+    for (double id : ex.m_remove_score_by_id) {
+        if (id == m_ruleId) {
+            return true;
+        }
+    }
+    for (const auto &tag : ex.m_remove_score_by_tag) {
+        if (containsTag(tag, trans)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 
 RuleWithActions::RuleWithActions(
     Actions *actions,
@@ -202,7 +232,20 @@ bool RuleWithActions::evaluate(Transaction *transaction,
 void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *trans,
     bool *containsBlock, RuleMessage &ruleMessage) {
 
+    const bool removeScore = scoreRemovalApplies(trans);
+
     for (actions::SetVar *a : m_actionsSetVar) {
+        if (removeScore) {
+            /* Macros in the variable name are not supported here, so the name
+             * is resolved statically (a null transaction makes RunTimeString
+             * emit only its literal text). */
+            const std::string name = a->expandedName(nullptr, nullptr);
+            if (nameContainsScore(name)) {
+                ms_dbg_a(trans, 9, "Skipping score setvar `" + name +
+                    "' due to SecRemoveScore directive.");
+                continue;
+            }
+        }
         ms_dbg_a(trans, 4, "Running [independent] (non-disruptive) " \
             "action: " + *a->m_name.get());
 

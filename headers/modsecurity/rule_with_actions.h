@@ -117,6 +117,9 @@ class RuleWithActions : public Rule {
         std::string &path,
         int &nth) const;
 
+    /* True when a SecRemoveScoreById/ByTag exception targets this rule. */
+    bool scoreRemovalApplies(Transaction *trans);
+
     /* actions */
     actions::Action *m_disruptiveAction;
     actions::LogData *m_logData;

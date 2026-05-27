@@ -73,6 +73,20 @@ bool RulesExceptions::loadRemoveRuleByTag(const std::string &msg,
 }
 
 
+bool RulesExceptions::loadRemoveScoreById(double id) {
+    m_remove_score_by_id.push_back(id);
+
+    return true;
+}
+
+
+bool RulesExceptions::loadRemoveScoreByTag(const std::string &tag) {
+    m_remove_score_by_tag.push_back(tag);
+
+    return true;
+}
+
+
 bool RulesExceptions::loadUpdateTargetByMsg(const std::string &msg,
     std::unique_ptr<std::vector<std::unique_ptr<variables::Variable> > > var,
     std::string *error) {
@@ -260,6 +274,14 @@ bool RulesExceptions::merge(RulesExceptions *from) {
 
     for (const auto &p : from->m_remove_rule_by_tag) {
         m_remove_rule_by_tag.push_back(p);
+    }
+
+    for (const auto &p : from->m_remove_score_by_id) {
+        m_remove_score_by_id.push_back(p);
+    }
+
+    for (const auto &p : from->m_remove_score_by_tag) {
+        m_remove_score_by_tag.push_back(p);
     }
 
     return true;

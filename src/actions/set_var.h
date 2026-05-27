@@ -60,6 +60,11 @@ class SetVar : public Action {
 
     bool evaluate(RuleWithActions *rule, Transaction *transaction) override;
 
+    /* Fully-resolved target name (e.g. "inbound_anomaly_score_pl1"); macros in
+     * the variable name are expanded against the transaction. */
+    std::string expandedName(Transaction *transaction,
+        RuleWithActions *rule) const;
+
  private:
     SetVarOperation m_operation;
     std::unique_ptr<modsecurity::variables::Variable> m_variable;

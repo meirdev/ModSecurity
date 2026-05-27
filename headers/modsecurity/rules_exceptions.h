@@ -72,6 +72,12 @@ class RulesExceptions {
         std::unique_ptr<std::vector<std::unique_ptr<actions::Action> > > actions,
         std::string *error);
 
+    bool loadRemoveScoreById(double id);
+    bool loadRemoveScoreByTag(const std::string &tag);
+
+    std::list<double> m_remove_score_by_id;
+    std::list<std::string> m_remove_score_by_tag;
+
     std::unordered_multimap<std::shared_ptr<std::string>,
         std::shared_ptr<variables::Variable>> m_variable_update_target_by_tag;
     std::unordered_multimap<std::shared_ptr<std::string>,
