@@ -34,6 +34,7 @@ class Driver;
 #include "src/actions/ctl/request_body_processor_xml.h"
 #include "src/actions/ctl/request_body_processor_urlencoded.h"
 #include "src/actions/ctl/rule_remove_by_id.h"
+#include "src/actions/ctl/remove_score_by_id.h"
 #include "src/actions/ctl/rule_remove_by_tag.h"
 #include "src/actions/ctl/rule_remove_target_by_id.h"
 #include "src/actions/ctl/rule_remove_target_by_tag.h"
@@ -506,6 +507,7 @@ using namespace modsecurity::operators;
   ACTION_CTL_PARSE_XML_INTO_ARGS               "ACTION_CTL_PARSE_XML_INTO_ARGS"
   ACTION_CTL_REQUEST_BODY_ACCESS               "ACTION_CTL_REQUEST_BODY_ACCESS"
   ACTION_CTL_RULE_REMOVE_BY_ID                 "ACTION_CTL_RULE_REMOVE_BY_ID"
+  ACTION_CTL_REMOVE_SCORE_BY_ID                "ACTION_CTL_REMOVE_SCORE_BY_ID"
   ACTION_CTL_RULE_REMOVE_BY_TAG                "ACTION_CTL_RULE_REMOVE_BY_TAG"
   ACTION_CTL_RULE_REMOVE_TARGET_BY_ID          "ACTION_CTL_RULE_REMOVE_TARGET_BY_ID"
   ACTION_CTL_RULE_REMOVE_TARGET_BY_TAG         "ACTION_CTL_RULE_REMOVE_TARGET_BY_TAG"
@@ -2800,6 +2802,10 @@ act:
     | ACTION_CTL_RULE_REMOVE_BY_ID
       {
         ACTION_CONTAINER($$, new actions::ctl::RuleRemoveById($1));
+      }
+    | ACTION_CTL_REMOVE_SCORE_BY_ID
+      {
+        ACTION_CONTAINER($$, new actions::ctl::RemoveScoreById($1));
       }
     | ACTION_CTL_RULE_REMOVE_BY_TAG
       {

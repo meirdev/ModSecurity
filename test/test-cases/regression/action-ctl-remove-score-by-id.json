@@ -1,0 +1,66 @@
+[
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "ctl:removeScoreById skips the score setvar of the targeted rule for this transaction",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/index.php?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200,
+      "error_log": "kept-marker"
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRule REQUEST_URI \"@beginsWith /index.php\" \"id:1,phase:1,pass,nolog,ctl:removeScoreById=920400\"",
+      "SecRule ARGS \"@contains value1\" \"id:920400,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5,setvar:tx.marker=1\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:920401,phase:1,deny,status:418,msg:'score-still-set'\"",
+      "SecRule TX:marker \"@streq 1\" \"id:920402,phase:1,log,msg:'kept-marker',pass\""
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "ctl:removeScoreById is per-transaction: when the triggering rule does not match, score stays",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/other.php?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 418
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRule REQUEST_URI \"@beginsWith /index.php\" \"id:1,phase:1,pass,nolog,ctl:removeScoreById=920400\"",
+      "SecRule ARGS \"@contains value1\" \"id:920400,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:920401,phase:1,deny,status:418,msg:'score-still-set'\""
+    ]
+  }
+]

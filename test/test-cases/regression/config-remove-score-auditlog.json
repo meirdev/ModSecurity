@@ -1,0 +1,126 @@
+[
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "version_max": 0,
+    "title": "SecRemoveScoreById records the skipped score var in the JSON audit log",
+    "client": { "ip": "200.249.12.31", "port": 2313 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "www.modsecurity.org",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/index.php?param1=value1",
+      "method": "GET",
+      "http_version": 1.1,
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "4" },
+      "body": [ "test" ]
+    },
+    "expected": {
+      "audit_log": "\"score_removals\":\\[\"920500\"\\]",
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRemoveScoreById 920500",
+      "SecRule ARGS \"@contains value1\" \"id:920500,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule REQUEST_URI \"@beginsWith /index.php\" \"id:920501,phase:1,pass,auditlog,msg:'marker'\"",
+      "SecAuditEngine On",
+      "SecAuditLogFormat JSON",
+      "SecAuditLogParts ABCFHZ",
+      "SecAuditLog /tmp/audit_remove_score.log",
+      "SecAuditLogDirMode 0766",
+      "SecAuditLogFileMode 0600",
+      "SecAuditLogType Serial"
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "version_max": 0,
+    "title": "No score removed: score_removals is an empty array in the JSON audit log",
+    "client": { "ip": "200.249.12.31", "port": 2313 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "www.modsecurity.org",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/index.php?param1=value1",
+      "method": "GET",
+      "http_version": 1.1,
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "4" },
+      "body": [ "test" ]
+    },
+    "expected": {
+      "audit_log": "\"score_removals\":\\[\\]",
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRule ARGS \"@contains value1\" \"id:920600,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule REQUEST_URI \"@beginsWith /index.php\" \"id:920601,phase:1,pass,auditlog,msg:'marker'\"",
+      "SecAuditEngine On",
+      "SecAuditLogFormat JSON",
+      "SecAuditLogParts ABCFHZ",
+      "SecAuditLog /tmp/audit_remove_score_none.log",
+      "SecAuditLogDirMode 0766",
+      "SecAuditLogFileMode 0600",
+      "SecAuditLogType Serial"
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "version_max": 0,
+    "title": "SecRemoveScoreByTag records every tagged rule in the JSON audit log score_removals",
+    "client": { "ip": "200.249.12.31", "port": 2313 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "www.modsecurity.org",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/index.php?param1=value1",
+      "method": "GET",
+      "http_version": 1.1,
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "4" },
+      "body": [ "test" ]
+    },
+    "expected": {
+      "audit_log": "\"score_removals\":\\[\"920700\",\"920701\"\\]",
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRemoveScoreByTag \"attack-xss\"",
+      "SecRule ARGS \"@contains value1\" \"id:920700,phase:1,pass,nolog,tag:attack-xss,setvar:tx.xss_score=+3\"",
+      "SecRule ARGS \"@contains value1\" \"id:920701,phase:1,pass,nolog,tag:attack-xss,setvar:tx.anomaly_score=+3\"",
+      "SecRule ARGS \"@contains value1\" \"id:920702,phase:1,pass,nolog,setvar:tx.other_score=+3\"",
+      "SecRule REQUEST_URI \"@beginsWith /index.php\" \"id:920703,phase:1,pass,auditlog,msg:'marker'\"",
+      "SecAuditEngine On",
+      "SecAuditLogFormat JSON",
+      "SecAuditLogParts ABCFHZ",
+      "SecAuditLog /tmp/audit_remove_score_by_tag.log",
+      "SecAuditLogDirMode 0766",
+      "SecAuditLogFileMode 0600",
+      "SecAuditLogType Serial"
+    ]
+  }
+]

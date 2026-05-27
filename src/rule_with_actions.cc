@@ -68,6 +68,14 @@ bool nameContainsScore(const std::string &name) {
 
 bool RuleWithActions::scoreRemovalApplies(Transaction *trans) {
     const auto &ex = trans->m_rules->m_exceptions;
+
+    /* Per-transaction ids from ctl:removeScoreById. */
+    for (double id : trans->m_remove_score_by_id) {
+        if (id == m_ruleId) {
+            return true;
+        }
+    }
+
     if (ex.m_remove_score_by_id.empty() && ex.m_remove_score_by_tag.empty()) {
         return false;
     }
@@ -233,6 +241,7 @@ void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *
     bool *containsBlock, RuleMessage &ruleMessage) {
 
     const bool removeScore = scoreRemovalApplies(trans);
+    bool scoreRemoved = false;
 
     for (actions::SetVar *a : m_actionsSetVar) {
         if (removeScore) {
@@ -243,6 +252,7 @@ void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *
             if (nameContainsScore(name)) {
                 ms_dbg_a(trans, 9, "Skipping score setvar `" + name +
                     "' due to SecRemoveScore directive.");
+                scoreRemoved = true;
                 continue;
             }
         }
@@ -250,6 +260,10 @@ void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *
             "action: " + *a->m_name.get());
 
         a->evaluate(this, trans);
+    }
+
+    if (scoreRemoved) {
+        trans->m_removedScores.push_back(m_ruleId);
     }
 
     for (auto &b :

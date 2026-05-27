@@ -169,6 +169,7 @@ Transaction::~Transaction() {
     m_requestBody.clear();
 
     m_rulesMessages.clear();
+    m_removedScores.clear();
 
     intervention::free(&m_it);
     intervention::clean(&m_it);
@@ -1740,6 +1741,20 @@ std::string Transaction::toJSON(int parts) {
         }
         yajl_gen_array_close(g);
         /* end: messages */
+
+        /* score_removals */
+        yajl_gen_string(g,
+            reinterpret_cast<const unsigned char*>("score_removals"),
+            strlen("score_removals"));
+        yajl_gen_array_open(g);
+        for (const auto &id : m_removedScores) {
+            const std::string idStr = std::to_string(id);
+            yajl_gen_string(g,
+                reinterpret_cast<const unsigned char*>(idStr.data()),
+                idStr.length());
+        }
+        yajl_gen_array_close(g);
+        /* end: score_removals */
     }
 
     /* end: transaction */
