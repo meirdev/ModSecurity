@@ -46,6 +46,7 @@ class Driver;
 #include "src/actions/init_col.h"
 #include "src/actions/exec.h"
 #include "src/actions/expire_var.h"
+#include "src/actions/remove_set_var.h"
 #include "src/actions/log_data.h"
 #include "src/actions/log.h"
 #include "src/actions/maturity.h"
@@ -514,6 +515,7 @@ using namespace modsecurity::operators;
   ACTION_DROP                                  "Drop"
   ACTION_EXEC                                  "Exec"
   ACTION_EXPIRE_VAR                            "ExpireVar"
+  ACTION_REMOVE_SETVAR                         "RemoveSetVar"
   ACTION_ID                                    "Id"
   ACTION_INITCOL                               "InitCol"
   ACTION_LOG                                   "Log"
@@ -2815,6 +2817,10 @@ act:
     | ACTION_EXPIRE_VAR run_time_string
       {
         ACTION_CONTAINER($$, new actions::ExpireVar(std::move($2)));
+      }
+    | ACTION_REMOVE_SETVAR run_time_string
+      {
+        ACTION_CONTAINER($$, new actions::RemoveSetVar(std::move($2)));
       }
     | ACTION_ID
       {

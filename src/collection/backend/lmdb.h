@@ -117,6 +117,9 @@ class LMDB :
     void resolveRegularExpression(const std::string& var,
         std::vector<const VariableValue *> *l,
         variables::KeyExclusions &ke) override;
+    void resolveRegularExpression(const Utils::Regex *regex,
+        std::vector<const VariableValue *> *l,
+        variables::KeyExclusions &ke) override;
 
  private:
     int txn_begin(unsigned int flags, MDB_txn **ret);

@@ -581,6 +581,14 @@ end_txn:
 void LMDB::resolveRegularExpression(const std::string& var,
     std::vector<const VariableValue *> *l,
     variables::KeyExclusions &ke) {
+    Utils::Regex r(var, true);
+    resolveRegularExpression(&r, l, ke);
+}
+
+
+void LMDB::resolveRegularExpression(const Utils::Regex *regex,
+    std::vector<const VariableValue *> *l,
+    variables::KeyExclusions &ke) {
     MDB_val key, data;
     MDB_txn *txn = NULL;
     int rc;
@@ -589,7 +597,7 @@ void LMDB::resolveRegularExpression(const std::string& var,
     CollectionData collectionData;
     std::list<std::string> expiredVars;
 
-    Utils::Regex r(var, true);
+    const Utils::Regex &r = *regex;
 
     rc = txn_begin(MDB_RDONLY, &txn);
     lmdb_debug(rc, "txn", "resolveRegularExpression");

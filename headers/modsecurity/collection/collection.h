@@ -37,6 +37,9 @@ typedef struct Variable_t Variables;
 
 #ifdef __cplusplus
 namespace modsecurity {
+namespace Utils {
+class Regex;
+}
 namespace variables {
 class KeyExclusions;
 }
@@ -66,6 +69,9 @@ class Collection {
         std::vector<const VariableValue *> *l,
         variables::KeyExclusions &ke) = 0;
     virtual void resolveRegularExpression(const std::string& var,
+        std::vector<const VariableValue *> *l,
+        variables::KeyExclusions &ke) = 0;
+    virtual void resolveRegularExpression(const Utils::Regex *regex,
         std::vector<const VariableValue *> *l,
         variables::KeyExclusions &ke) = 0;
 

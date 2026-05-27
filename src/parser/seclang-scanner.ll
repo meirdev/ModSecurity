@@ -107,6 +107,7 @@ ACTION_DEPRECATE_VAR                            (?i:deprecatevar)
 ACTION_DROP                                     (?i:drop)
 ACTION_EXEC                                     (?i:exec)
 ACTION_EXPIRE_VAR                               (?i:expirevar)
+ACTION_REMOVE_SETVAR                            (?i:removesetvar)
 ACTION_ID                                       (?i:id:[0-9]+|id:'[0-9]+')
 ACTION_INITCOL                                  (?i:initcol)
 ACTION_LOG_DATA                                 (?i:logdata)
@@ -556,6 +557,7 @@ EQUALS_MINUS                            (?i:=\-)
 {ACTION_EXEC}:'{VAR_FREE_TEXT_QUOTE}'                                   { return p::make_ACTION_EXEC(yytext, *driver.loc.back()); }
 {ACTION_EXEC}:{VAR_FREE_TEXT_SPACE_COMMA}                               { return p::make_ACTION_EXEC(yytext, *driver.loc.back()); }
 {ACTION_EXPIRE_VAR}:                                                    { BEGIN(EXPECTING_ACTION_PREDICATE); return p::make_ACTION_EXPIRE_VAR(yytext, *driver.loc.back()); }
+{ACTION_REMOVE_SETVAR}:                                                 { BEGIN(EXPECTING_ACTION_PREDICATE); return p::make_ACTION_REMOVE_SETVAR(yytext, *driver.loc.back()); }
 {ACTION_INITCOL}:{COL_NAME}=                                            { BEGIN(EXPECTING_ACTION_PREDICATE); return p::make_ACTION_INITCOL(yytext, *driver.loc.back()); }
 {ACTION_MATURITY}:'{FREE_TEXT_QUOTE}'                                   { return p::make_ACTION_MATURITY(yytext, *driver.loc.back()); }
 {ACTION_MATURITY}:{FREE_TEXT_QUOTE}                                     { return p::make_ACTION_MATURITY(yytext, *driver.loc.back()); }

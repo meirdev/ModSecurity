@@ -1,0 +1,101 @@
+[
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "removesetvar removes all tx keys matching the regex; non-matching key survives",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200,
+      "error_log": "kept-other"
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecAction \"id:1,phase:1,nolog,pass,setvar:tx.inbound_anomaly_score_pl1=5,setvar:tx.inbound_anomaly_score_pl2=3,setvar:tx.other=7\"",
+      "SecAction \"id:2,phase:1,nolog,pass,removesetvar:/tx.inbound_anomaly_score_.*/\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:3,phase:1,deny,status:418,msg:'pl1-still-set'\"",
+      "SecRule TX:inbound_anomaly_score_pl2 \"@ge 1\" \"id:4,phase:1,deny,status:418,msg:'pl2-still-set'\"",
+      "SecRule TX:other \"@streq 7\" \"id:5,phase:1,log,msg:'kept-other',pass\""
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "removesetvar injected via SecRuleUpdateActionById cancels a rule's own setvar",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRuleUpdateActionById 920170 \"removesetvar:/tx.inbound_anomaly_score_.*/\"",
+      "SecRule ARGS \"@contains value1\" \"id:920170,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:920171,phase:1,deny,status:418,msg:'pl1-still-set-after-override'\""
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "removesetvar removes a setvar applied by a chained (second) rule",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "localhost",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/a=urlencoded?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200,
+      "error_log": "chain-ran"
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRule ARGS \"@contains value1\" \"id:30,phase:1,pass,nolog,chain\"",
+      "SecRule REQUEST_METHOD \"@streq GET\" \"setvar:tx.chain_score=+5,setvar:tx.chain_marker=1\"",
+      "SecAction \"id:31,phase:1,nolog,pass,removesetvar:/tx.chain_score.*/\"",
+      "SecRule TX:chain_marker \"@streq 1\" \"id:32,phase:1,log,msg:'chain-ran',pass\"",
+      "SecRule TX:chain_score \"@ge 1\" \"id:33,phase:1,deny,status:418,msg:'chain-score-still-set'\""
+    ]
+  }
+]
