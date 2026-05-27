@@ -263,7 +263,7 @@ void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *
     }
 
     if (scoreRemoved) {
-        trans->m_removedScores.push_back(m_ruleId);
+        trans->m_removedScores.insert(m_ruleId);
     }
 
     for (auto &b :

@@ -24,6 +24,7 @@
 #include <iostream>
 #include <list>
 #include <map>
+#include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -565,7 +566,7 @@ class Transaction : public TransactionAnchoredVariables, public TransactionSecMa
      * directives or the ctl:removeScoreById action, so the JSON audit log can
      * report them.
      */
-    std::list<int64_t> m_removedScores;
+    std::set<int64_t> m_removedScores;
 
     /**
      * Holds the request body, in case of any.
