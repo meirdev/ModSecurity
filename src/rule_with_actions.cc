@@ -67,25 +67,32 @@ bool nameContainsScore(const std::string &name) {
 
 
 bool RuleWithActions::scoreRemovalApplies(Transaction *trans) {
-    const auto &ex = trans->m_rules->m_exceptions;
+    /* Chained children carry m_ruleId = 0 and have no tags of their own; the
+     * public identity (id + tags) belongs to the chain head. */
+    RuleWithActions *head = this;
+    while (head->m_chainedRuleParent != nullptr) {
+        head = head->m_chainedRuleParent;
+    }
+    const int64_t effectiveId = head->m_ruleId;
 
     /* Per-transaction ids from ctl:removeScoreById. */
     for (double id : trans->m_remove_score_by_id) {
-        if (id == m_ruleId) {
+        if (id == effectiveId) {
             return true;
         }
     }
 
+    const auto &ex = trans->m_rules->m_exceptions;
     if (ex.m_remove_score_by_id.empty() && ex.m_remove_score_by_tag.empty()) {
         return false;
     }
     for (double id : ex.m_remove_score_by_id) {
-        if (id == m_ruleId) {
+        if (id == effectiveId) {
             return true;
         }
     }
     for (const auto &tag : ex.m_remove_score_by_tag) {
-        if (containsTag(tag, trans)) {
+        if (head->containsTag(tag, trans)) {
             return true;
         }
     }
@@ -263,7 +270,11 @@ void RuleWithActions::executeActionsIndependentOfChainedRuleResult(Transaction *
     }
 
     if (scoreRemoved) {
-        trans->m_removedScores.insert(m_ruleId);
+        const RuleWithActions *head = this;
+        while (head->m_chainedRuleParent != nullptr) {
+            head = head->m_chainedRuleParent;
+        }
+        trans->m_removedScores.insert(head->m_ruleId);
     }
 
     for (auto &b :

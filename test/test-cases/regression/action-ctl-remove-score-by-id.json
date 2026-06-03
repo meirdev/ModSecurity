@@ -62,5 +62,70 @@
       "SecRule ARGS \"@contains value1\" \"id:920400,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
       "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:920401,phase:1,deny,status:418,msg:'score-still-set'\""
     ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "ctl:removeScoreById fires when placed on the innermost rule of a chain",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "cus2web1.example.com",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/keep.php?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRule REQUEST_HEADERS:Host \"@streq cus2web1.example.com\" \"id:200,phase:1,pass,nolog,t:none,t:lowercase,chain\"",
+      "SecRule REQUEST_METHOD \"@streq get\" \"t:none,t:lowercase,chain\"",
+      "SecRule REQUEST_URI \"@beginsWith /keep\" \"t:none,t:lowercase,ctl:removeScoreById=942421\"",
+      "SecRule ARGS \"@contains value1\" \"id:942421,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:942422,phase:1,deny,status:418,msg:'score-still-set-after-chain-ctl'\""
+    ]
+  },
+  {
+    "enabled": 1,
+    "version_min": 300000,
+    "title": "ctl:removeScoreById scopes the targeted rule's chained CHILD setvars (id taken from chain head)",
+    "client": { "ip": "200.249.12.31", "port": 123 },
+    "server": { "ip": "200.249.12.31", "port": 80 },
+    "request": {
+      "headers": {
+        "Host": "cus2web1.example.com",
+        "User-Agent": "curl/7.38.0",
+        "Accept": "*/*",
+        "Content-Length": "0"
+      },
+      "uri": "/keep.php?param1=value1",
+      "method": "GET",
+      "body": [ "" ]
+    },
+    "response": {
+      "headers": { "Content-Type": "text/html", "Content-Length": "8" },
+      "body": [ "no need." ]
+    },
+    "expected": {
+      "http_code": 200
+    },
+    "rules": [
+      "SecRuleEngine On",
+      "SecRule REQUEST_HEADERS:Host \"@streq cus2web1.example.com\" \"id:300,phase:1,pass,nolog,t:none,t:lowercase,ctl:removeScoreById=931130\"",
+      "SecRule ARGS \"@contains value1\" \"id:931130,phase:1,pass,nolog,chain\"",
+      "SecRule REQUEST_METHOD \"@streq GET\" \"setvar:tx.inbound_anomaly_score_pl1=+5\"",
+      "SecRule TX:inbound_anomaly_score_pl1 \"@ge 1\" \"id:931131,phase:1,deny,status:418,msg:'chain-child-score-still-set'\""
+    ]
   }
 ]
